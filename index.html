@@ -1087,6 +1087,16 @@
             loadGlobalHighscores();
         });
 
+        document.addEventListener('click', () => {
+            if (gameOver) {
+                restartGame();
+            }
+        });
+
+        swipeArea.addEventListener('click', () => {
+            if (gameOver) restartGame();
+        });
+
 
     </script>
 
