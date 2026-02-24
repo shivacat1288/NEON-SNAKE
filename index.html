@@ -20,6 +20,7 @@
             align-items: center;
         }
 
+
         .game-wrapper {
             display: flex;
             gap: 30px;
@@ -309,16 +310,11 @@
     <div id="game-screen" class="screen">
         <div class="game-wrapper">
             <canvas id="canvas" width="480" height="480"></canvas>
-
-            <div class="score-board">
-                <p>Score: <span id="score">0</span></p>
-                <p>Level: <span id="speed-level">1</span></p>
-            </div>
         </div>
 
         <!-- 👆 Swipe Area -->
         <div id="swipe-area">
-            <p>⬅️ ⬆️ ➡️ ⬇️ Swipe here</p>
+            <p>Swipe to move</p>
         </div>
     </div>
 
@@ -410,8 +406,7 @@
 
 
 
-        document.getElementById('speed-level').textContent = speedLevel + 1;
-
+        
         function draw() {
 
             ctx.fillStyle = 'black'; // Cnnvas(hintergrund)
@@ -831,7 +826,6 @@
             if (snake[0].x == food.x &&
                 snake[0].y == food.y) {
                 score++;
-                document.getElementById('score').textContent = score;
                 growSegments++;
                 placefood();
                 tongueTimer = Math.max(4, 8 - speedLevel);
@@ -857,8 +851,7 @@
                 score += 10;
                 rainbowMode = true;
                 rainbowExpiresAt = Date.now() + 4000; // 🎯 exakt 4 Sekunden
-                document.getElementById('score').textContent = score;
-
+               
                 // ❌ KEIN growSegments++
                 superFood = null;
 
@@ -900,9 +893,8 @@
                 }
 
 
-                // 🧠 UI
-                document.getElementById('speed-level').textContent = speedLevel + 1;
-
+            
+                
                 // ✨ VISUELLER IMPULS
                 levelUpFlash = 25;
             }
@@ -1040,7 +1032,6 @@
             score = 0;
             speedLevel = 0; // ✅ wichtig
             document.getElementById('speed-level').textContent = 1;
-            document.getElementById('score').textContent = score;
             gameOver = false;
             gameStarted = false;
 
@@ -1069,7 +1060,7 @@
             });
         }
 
-        
+
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('sw.js');
         }
