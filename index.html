@@ -238,16 +238,19 @@
 
         /* 🟢 SWIPE AREA */
         #swipe-area {
-            margin-top: 10px;
+            margin-top: 16px;
             width: 100%;
             max-width: 480px;
-            height: 100px;
+            height: 180px;
+            /* 👈 deutlich größer */
             border: 2px dashed #00ffff;
             color: #00ffff;
             display: flex;
             align-items: center;
             justify-content: center;
             text-shadow: 0 0 5px #00ffff;
+            font-size: 18px;
+            user-select: none;
         }
 
         /* 📱 MOBILE */
@@ -406,7 +409,7 @@
 
 
 
-        
+
         function draw() {
 
             ctx.fillStyle = 'black'; // Cnnvas(hintergrund)
@@ -851,7 +854,7 @@
                 score += 10;
                 rainbowMode = true;
                 rainbowExpiresAt = Date.now() + 4000; // 🎯 exakt 4 Sekunden
-               
+
                 // ❌ KEIN growSegments++
                 superFood = null;
 
@@ -893,8 +896,8 @@
                 }
 
 
-            
-                
+
+
                 // ✨ VISUELLER IMPULS
                 levelUpFlash = 25;
             }
