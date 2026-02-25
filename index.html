@@ -238,10 +238,10 @@
 
         /* 🟢 SWIPE AREA */
         #swipe-area {
-            margin-top: 10px;
+            margin-top: 20px;
             width: 100%;
             max-width: 480px;
-            height: 160px;
+            height: 200px;
             /* 👈 größer */
             border: 2px dashed #00ffff;
             color: #00ffff;
@@ -391,6 +391,20 @@
         document.addEventListener('keydown', keyDown);
 
         const swipeArea = document.getElementById('swipe-area');
+
+        swipeArea.addEventListener('click', () => {
+            if (gameOver) {
+                restartGame();
+            }
+        });
+
+        swipeArea.addEventListener('touchend', e => {
+            if (gameOver) {
+                e.preventDefault();
+                restartGame();
+            }
+        }, { passive: false });
+
 
         swipeArea.addEventListener('touchstart', e => {
             e.preventDefault();
