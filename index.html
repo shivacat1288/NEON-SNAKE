@@ -238,20 +238,22 @@
 
         /* 🟢 SWIPE AREA */
         #swipe-area {
-            margin-top: 16px;
+            margin-top: 10px;
             width: 100%;
             max-width: 480px;
-            height: 180px;
-            /* 👈 deutlich größer */
+            height: 160px;
+            /* 👈 größer */
             border: 2px dashed #00ffff;
             color: #00ffff;
             display: flex;
             align-items: center;
             justify-content: center;
             text-shadow: 0 0 5px #00ffff;
-            font-size: 18px;
-            user-select: none;
-            
+
+            touch-action: none;
+            /* 🔑 WICHTIG */
+            overscroll-behavior: none;
+            /* 🔑 WICHTIG */
         }
 
         /* 📱 MOBILE */
@@ -391,17 +393,19 @@
         const swipeArea = document.getElementById('swipe-area');
 
         swipeArea.addEventListener('touchstart', e => {
+            e.preventDefault();
             const t = e.touches[0];
             touchStartX = t.clientX;
             touchStartY = t.clientY;
-        }, { passive: true });
+        }, { passive: false });
 
         swipeArea.addEventListener('touchend', e => {
+            e.preventDefault();
             const t = e.changedTouches[0];
             touchEndX = t.clientX;
             touchEndY = t.clientY;
             handleSwipe();
-        });
+        }, { passive: false });
 
 
         canvas.addEventListener('click', () => {
