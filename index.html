@@ -402,17 +402,25 @@
         swipeArea.addEventListener('touchend', e => {
             e.preventDefault();
 
-            // 🔁 Restart bei Game Over
-            if (gameOver) {
+            const t = e.changedTouches[0];
+            touchEndX = t.clientX;
+            touchEndY = t.clientY;
+
+            const dx = touchEndX - touchStartX;
+            const dy = touchEndY - touchStartY;
+
+            const isTap = Math.abs(dx) < 10 && Math.abs(dy) < 10;
+
+            // 🔁 TAP = Restart
+            if (gameOver && isTap) {
                 restartGame();
                 return;
             }
 
-            // 👉 sonst Swipe
-            const t = e.changedTouches[0];
-            touchEndX = t.clientX;
-            touchEndY = t.clientY;
-            handleSwipe();
+            // 👉 SWIPE = Bewegung
+            if (!gameOver) {
+                handleSwipe();
+            }
         }, { passive: false });
 
 
