@@ -392,20 +392,6 @@
 
         const swipeArea = document.getElementById('swipe-area');
 
-        swipeArea.addEventListener('click', () => {
-            if (gameOver) {
-                restartGame();
-            }
-        });
-
-        swipeArea.addEventListener('touchend', e => {
-            if (gameOver) {
-                e.preventDefault();
-                restartGame();
-            }
-        }, { passive: false });
-
-
         swipeArea.addEventListener('touchstart', e => {
             e.preventDefault();
             const t = e.touches[0];
@@ -415,6 +401,14 @@
 
         swipeArea.addEventListener('touchend', e => {
             e.preventDefault();
+
+            // 🔁 Restart bei Game Over
+            if (gameOver) {
+                restartGame();
+                return;
+            }
+
+            // 👉 sonst Swipe
             const t = e.changedTouches[0];
             touchEndX = t.clientX;
             touchEndY = t.clientY;
@@ -475,8 +469,24 @@
             }
             drawLevelUpEffect();
 
+            drawHUD();
+
             requestAnimationFrame(draw);
 
+        }
+
+        function drawHUD() {
+            ctx.save();
+
+            ctx.font = '14px Courier New';
+            ctx.fillStyle = '#00ffff';
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'top';
+
+            ctx.fillText(`Score: ${score}`, 8, 6);
+            ctx.fillText(`Level: ${speedLevel + 1}`, 8, 22);
+
+            ctx.restore();
         }
 
         function drawFood(x, y) {
@@ -1053,7 +1063,6 @@
             nextDirection = "LEFT";
             score = 0;
             speedLevel = 0; // ✅ wichtig
-            document.getElementById('speed-level').textContent = 1;
             gameOver = false;
             gameStarted = false;
 
@@ -1106,15 +1115,9 @@
             loadGlobalHighscores();
         });
 
-        document.addEventListener('click', () => {
-            if (gameOver) {
-                restartGame();
-            }
-        });
 
-        swipeArea.addEventListener('click', () => {
-            if (gameOver) restartGame();
-        });
+
+
 
 
     </script>
