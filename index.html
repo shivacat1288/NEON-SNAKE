@@ -318,6 +318,12 @@
             <canvas id="canvas" width="480" height="480"></canvas>
         </div>
 
+        <div id="name-input" style="display:none;">
+            <p>Neuer Highscore! Name eingeben:</p>
+            <input type="text" id="player-name" maxlength="12" />
+            <button onclick="saveHighscore()">OK</button>
+        </div>
+
         <!-- 👆 Swipe Area -->
         <div id="swipe-area">
             <p>Swipe to move</p>
@@ -1059,10 +1065,8 @@
 
         function restartGame() {
             clearInterval(gameInterval);
-            gameOver = false; 
 
-            document.getElementById('name-input').style.display = 'none';
-
+            // STATE RESET
             superFood = null;
             superFoodExpiresAt = 0;
             rainbowMode = false;
@@ -1071,23 +1075,19 @@
             direction = "LEFT";
             nextDirection = "LEFT";
             score = 0;
-            speedLevel = 0; // ✅ wichtig
-            gameOver = false;
-            gameStarted = false;
-
-            placefood();
-
+            speedLevel = 0;
             growSegments = 0;
             tongueTimer = 0;
 
+            gameOver = false;
+
+            placefood();
+
             gameInterval = setInterval(gameloop, baseSpeed);
 
-            if (musicOn && musicUnlocked && bgMusic.paused) {
+            if (musicOn && musicUnlocked) {
                 bgMusic.play().catch(() => { });
             }
-
-
-
         }
 
 
