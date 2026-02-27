@@ -710,6 +710,37 @@
                 li.textContent = `${data.name} – ${data.score}`;
                 list.appendChild(li);
             });
+
+            snapshot.forEach((doc, index) => {
+                const data = doc.data();
+                globalHighscores.push(data);
+
+                const li = document.createElement("li");
+                li.textContent = `${index + 1}. ${data.name} – ${data.score}`;
+
+                // 🥇 GOLD
+                if (index === 0) {
+                    li.style.color = "#FFD700";
+                    li.style.fontWeight = "bold";
+                    li.style.textShadow = "0 0 6px #FFD700, 0 0 12px #FFD700";
+                }
+
+                // 🥈 SILBER
+                else if (index === 1) {
+                    li.style.color = "#C0C0C0";
+                    li.style.fontWeight = "bold";
+                    li.style.textShadow = "0 0 6px #C0C0C0";
+                }
+
+                // 🥉 BRONZE
+                else if (index === 2) {
+                    li.style.color = "#CD7F32";
+                    li.style.fontWeight = "bold";
+                    li.style.textShadow = "0 0 6px #CD7F32";
+                }
+
+                list.appendChild(li);
+            });
         }
 
         async function cleanupHighscores() {
