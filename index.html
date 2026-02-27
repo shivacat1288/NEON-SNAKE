@@ -698,17 +698,18 @@
 
             const snapshot = await getDocs(q);
 
+            const docs = snapshot.docs; // 🔥 DAS ist ein Array
+
             globalHighscores = [];
             const list = document.getElementById("highscore-list");
             list.innerHTML = "";
 
-            snapshot.forEach((doc, index) => {
+            docs.forEach((doc, index) => {
                 const data = doc.data();
                 globalHighscores.push(data);
 
                 const li = document.createElement("li");
 
-                // 🥇🥈🥉 Anzeige
                 if (index === 0) {
                     li.textContent = `🥇 ${data.name} – ${data.score}`;
                     li.style.color = "#FFD700";
@@ -719,13 +720,11 @@
                     li.textContent = `🥈 ${data.name} – ${data.score}`;
                     li.style.color = "#C0C0C0";
                     li.style.fontWeight = "bold";
-                    li.style.textShadow = "0 0 6px #C0C0C0";
                 }
                 else if (index === 2) {
                     li.textContent = `🥉 ${data.name} – ${data.score}`;
                     li.style.color = "#CD7F32";
                     li.style.fontWeight = "bold";
-                    li.style.textShadow = "0 0 6px #CD7F32";
                 }
                 else {
                     li.textContent = `${index + 1}. ${data.name} – ${data.score}`;
