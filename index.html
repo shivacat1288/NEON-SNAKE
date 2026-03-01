@@ -263,6 +263,21 @@
                 align-items: center;
             }
         }
+
+        #rank-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            color: #00ffff;
+            font-size: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-shadow: 0 0 15px #00ffff;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 9999;
+        }
     </style>
 
 
@@ -689,11 +704,23 @@
             document.getElementById('name-input').style.display = 'none';
             input.value = '';
 
-            await saveHighscoreGlobal(name, score);
+            const created = Date.now();
+
+            await saveHighscoreGlobal(name, score, created);
             await cleanupHighscores();
             await loadGlobalHighscores();
 
-            restartGame();
+            const rank = globalHighscores.findIndex(
+                entry => entry.created === created
+            );
+
+            if (rank !== -1) {
+                showRankOverlay(rank);
+            }
+
+            setTimeout(() => {
+                restartGame();
+            }, 2500);
         }
 
 
@@ -772,13 +799,13 @@
             }
         }
 
-        async function saveHighscoreGlobal(name, score) {
+        async function saveHighscoreGlobal(name, score, created) {
             const { collection, addDoc } = window.fs;
 
             await addDoc(collection(db, "highscores"), {
                 name,
                 score,
-                created: Date.now()
+                created
             });
         }
 
@@ -786,6 +813,24 @@
             const box = document.getElementById('name-input');
             box.style.display = 'block';
             document.getElementById('player-name').focus();
+        }
+
+
+        function showRankOverlay(rank) {
+            const overlay = document.createElement("div");
+            overlay.id = "rank-overlay";
+            overlay.innerText = `🏆 You placed #${rank + 1}!`;
+
+            document.body.appendChild(overlay);
+
+            setTimeout(() => {
+                overlay.style.opacity = "1";
+            }, 50);
+
+            setTimeout(() => {
+                overlay.style.opacity = "0";
+                setTimeout(() => overlay.remove(), 500);
+            }, 2500);
         }
 
 
