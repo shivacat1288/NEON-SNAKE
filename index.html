@@ -372,6 +372,7 @@
         let vibrationUnlocked = false;
         let superFood = null;
         let globalHighscores = [];
+        let gameOverAlpha = 0;
 
         window.addEventListener('load', () => {
             loadGlobalHighscores();
@@ -465,22 +466,32 @@
 
 
             if (gameOver) {
+                gameOverAlpha = Math.min(1, gameOverAlpha + 0.03);
+
+                ctx.save();
+                ctx.globalAlpha = gameOverAlpha;
+
                 ctx.fillStyle = 'red';
-                ctx.font = '40px Arial';
+                ctx.font = '48px Arial';
                 ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.fillText('GAME OVER', canvas.width / 2, canvas.height / 2 - 40);
+                ctx.fillText('GAME OVER', canvas.width / 2, canvas.height / 2 - 50);
 
-                ctx.fillStyle = 'white';
-                ctx.font = '20px Arial';
-                ctx.fillText(`Gesamtpunkte: ${score}`, canvas.width / 2, canvas.height / 2 + 10);
+                ctx.fillStyle = '#00ffff';
+                ctx.font = '28px Arial';
+                ctx.shadowColor = '#00ffff';
+                ctx.shadowBlur = 15;
+                ctx.fillText(`Score: ${score}`, canvas.width / 2, canvas.height / 2);
 
+                ctx.shadowBlur = 0;
                 ctx.font = '16px Arial';
+                ctx.fillStyle = 'white';
                 ctx.fillText(
-                    'Tippen oder Leertaste zum Neustart',
+                    'Tap or Space to restart',
                     canvas.width / 2,
-                    canvas.height / 2 + 50
+                    canvas.height / 2 + 40
                 );
+
+                ctx.restore();
             }
             drawLevelUpEffect();
 
@@ -1101,6 +1112,7 @@
             speedLevel = 0;
             growSegments = 0;
             tongueTimer = 0;
+            gameOverAlpha = 0;
 
             gameOver = false;
 
