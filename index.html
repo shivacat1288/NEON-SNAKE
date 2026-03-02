@@ -342,7 +342,8 @@
 
         <!-- 👆 Swipe Area -->
         <div id="swipe-area">
-            <p>Swipe to Move</p><br><h3>Tab to restart</h3>
+            <p>Swipe to Move</p><br>
+            <h3>Tab to restart</h3>
         </div>
     </div>
 
@@ -704,25 +705,21 @@
             document.getElementById('name-input').style.display = 'none';
             input.value = '';
 
-            const created = Date.now();
+            const newId = await saveHighscoreGlobal(name, score);
 
-            await saveHighscoreGlobal(name, score, created);
             await cleanupHighscores();
             await loadGlobalHighscores();
 
             const rank = globalHighscores.findIndex(
-                entry => entry.created === created
+                entry => entry.id === newId
             );
 
             if (rank !== -1) {
                 showRankOverlay(rank);
-            }
-
-            setTimeout(() => {
+            } else {
                 restartGame();
-            }, 2500);
+            }
         }
-
 
 
 
@@ -745,7 +742,10 @@
 
             docs.forEach((doc, index) => {
                 const data = doc.data();
-                globalHighscores.push(data);
+                globalHighscores.push({
+                    id: doc.id,   // 🔥 ID mit speichern
+                    ...data
+                });
 
                 const li = document.createElement("li");
 
@@ -799,14 +799,16 @@
             }
         }
 
-        async function saveHighscoreGlobal(name, score, created) {
+        async function saveHighscoreGlobal(name, score) {
             const { collection, addDoc } = window.fs;
 
-            await addDoc(collection(db, "highscores"), {
+            const docRef = await addDoc(collection(db, "highscores"), {
                 name,
                 score,
-                created
+                created: Date.now()
             });
+
+            return docRef.id; // 🔥 ID zurückgeben
         }
 
         function showNameInput() {
@@ -829,8 +831,13 @@
 
             setTimeout(() => {
                 overlay.style.opacity = "0";
-                setTimeout(() => overlay.remove(), 500);
-            }, 2500);
+
+                setTimeout(() => {
+                    overlay.remove();
+                    restartGame();   // 🔥 HIER restart
+                }, 500);
+
+            }, 2000); // etwas früher ausblenden
         }
 
 
