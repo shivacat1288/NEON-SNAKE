@@ -342,8 +342,10 @@
 
         <!-- 👆 Swipe Area -->
         <div id="swipe-area">
-            <p>Swipe to Move</p><br><br><h3>Tab to restart</h3>
-            
+            <p>Swipe to Move<br>
+            <h3>Tab to restart</h3>
+            </p>
+
         </div>
     </div>
 
@@ -520,12 +522,12 @@
         function drawHUD() {
             ctx.save();
 
-            ctx.font = '20px Courier New';
-            ctx.fillStyle = '#ff00d0';   // 💖 NEON PINK
+            ctx.font = '22px Courier New';
+            ctx.fillStyle = '#00ffff';   // 💖 NEON PINK
             ctx.textAlign = 'left';
             ctx.textBaseline = 'top';
 
-            ctx.shadowColor = '#ff00d0';
+            ctx.shadowColor = '#00ffff';
             ctx.shadowBlur = 8;          // 🔥 Glow Effekt
 
             ctx.fillText(`Score: ${score}`, 8, 6);
