@@ -821,25 +821,34 @@
         function showRankOverlay(rank) {
             const overlay = document.createElement("div");
             overlay.id = "rank-overlay";
-            overlay.innerText = `🏆 You placed #${rank + 1}!`;
+
+            overlay.innerHTML = `
+        <div style="text-align:center;">
+            🏆 You placed #${rank + 1}!<br><br>
+            <span style="font-size:18px; opacity:0.8;">
+                Tap to continue
+            </span>
+        </div>
+    `;
 
             document.body.appendChild(overlay);
 
+            // Fade In
             setTimeout(() => {
                 overlay.style.opacity = "1";
             }, 50);
 
-            setTimeout(() => {
+            // 👉 Kein setTimeout Restart mehr!
+            overlay.addEventListener("click", () => {
                 overlay.style.opacity = "0";
 
                 setTimeout(() => {
                     overlay.remove();
-                    restartGame();   // 🔥 HIER restart
-                }, 500);
+                    restartGame();
+                }, 300);
 
-            }, 2000); // etwas früher ausblenden
+            }, { once: true });
         }
-
 
         function placefood() {
             let valid = false;
