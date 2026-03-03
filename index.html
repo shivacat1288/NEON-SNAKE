@@ -278,6 +278,24 @@
             }
         }
 
+        @keyframes neonPulse {
+            0% {
+                box-shadow: 0 0 5px #ff00ff;
+            }
+
+            50% {
+                box-shadow: 0 0 20px #ff00ff, 0 0 40px #ff00ff;
+            }
+
+            100% {
+                box-shadow: 0 0 5px #ff00ff;
+            }
+        }
+
+        #start-btn {
+            animation: neonPulse 1.5s infinite;
+        }
+
         #rank-overlay {
             position: fixed;
             inset: 0;
@@ -667,6 +685,22 @@
             ctx.stroke();
         }
 
+        function screenFlash(color) {
+            const flash = document.createElement("div");
+            flash.style.position = "fixed";
+            flash.style.inset = "0";
+            flash.style.background = color;
+            flash.style.opacity = "0.3";
+            flash.style.pointerEvents = "none";
+            document.body.appendChild(flash);
+
+            setTimeout(() => {
+                flash.style.transition = "opacity 0.3s";
+                flash.style.opacity = "0";
+                setTimeout(() => flash.remove(), 300);
+            }, 50);
+        }
+
         function unlockAudio() {
             if (musicUnlocked) return;
 
@@ -1010,6 +1044,7 @@
                 score += 10;
                 rainbowMode = true;
                 rainbowExpiresAt = Date.now() + 4000; // 🎯 exakt 4 Sekunden
+                screenFlash("#ff00ff");
 
                 // ❌ KEIN growSegments++
                 superFood = null;
