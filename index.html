@@ -310,6 +310,52 @@
             transition: opacity 0.4s ease;
             z-index: 9999;
         }
+
+        @keyframes shake {
+            0% {
+                transform: translate(0);
+            }
+
+            20% {
+                transform: translate(-5px, 5px);
+            }
+
+            40% {
+                transform: translate(5px, -5px);
+            }
+
+            60% {
+                transform: translate(-5px, -5px);
+            }
+
+            80% {
+                transform: translate(5px, 5px);
+            }
+
+            100% {
+                transform: translate(0);
+            }
+        }
+
+        @keyframes flicker {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.85;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .neon-title {
+            animation: flicker 2s infinite;
+        }
+
+        
     </style>
 
 
@@ -747,6 +793,17 @@
                     showNameInput();
                 }
             }
+            shakeScreen();
+        }
+
+        function shakeScreen() {
+            const game = document.getElementById("game-screen");
+
+            game.style.animation = "shake 0.4s";
+
+            setTimeout(() => {
+                game.style.animation = "";
+            }, 400);
         }
 
         async function saveHighscore() {
