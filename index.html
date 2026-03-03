@@ -355,7 +355,7 @@
             animation: flicker 2s infinite;
         }
 
-        
+
     </style>
 
 
@@ -782,6 +782,7 @@
 
             if (hitWall || hitSelf) {
                 gameOver = true;
+                shakeScreen();
                 clearInterval(gameInterval);
                 bgMusic.pause();
 
@@ -793,7 +794,7 @@
                     showNameInput();
                 }
             }
-            shakeScreen();
+            
         }
 
         function shakeScreen() {
