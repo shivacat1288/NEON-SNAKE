@@ -452,6 +452,10 @@
         let speedLevel = 0; // wie oft wir schneller geworden sind
         let levelUpSound = new Audio('levelup.mp3');
         levelUpSound.volume = 0.4;
+        let gameOverSound = new Audio('gameover.mp3');
+        gameOverSound.volume = 0.5;
+        let superFoodSound = new Audio('superfood.mp3');
+        superFoodSound.volume = 0.5;
         let touchStartX = 0;
         let touchStartY = 0;
         let touchEndX = 0;
@@ -478,7 +482,7 @@
         let silentAudio = new Audio();
         silentAudio.src = "data:audio/mp3;base64,//uQxAAAAAAAAAAAAAAAAAAAAAA==";
         silentAudio.loop = true;
-        [eatsound, bgMusic, levelUpSound].forEach(a => {
+        [eatsound, bgMusic, levelUpSound, gameOverSound, superFoodSound].forEach(a => {
             a.preload = 'auto';
             a.playsInline = true;     // 🔑 iOS FIX
             a.muted = false;
@@ -784,6 +788,8 @@
                 shakeScreen();
                 clearInterval(gameInterval);
                 bgMusic.pause();
+                gameOverSound.currentTime = 0;
+                gameOverSound.play().catch(() => { });
 
                 const qualifies =
                     globalHighscores.length < 100 ||
@@ -1109,8 +1115,8 @@
 
 
                 // 🔊 Bonus-Feedback (optional)
-                levelUpSound.currentTime = 0;
-                levelUpSound.play();
+                superFoodSound.currentTime = 0;
+                superFoodSound.play();
 
                 // 📳 optional Mini-Buzz
                 if (navigator.vibrate && vibrationUnlocked) {
