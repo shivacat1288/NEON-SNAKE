@@ -780,6 +780,7 @@
 
             if (hitWall || hitSelf) {
                 gameOver = true;
+                screenFlash("red");
                 shakeScreen();
                 clearInterval(gameInterval);
                 bgMusic.pause();
@@ -1101,6 +1102,7 @@
                 rainbowMode = true;
                 rainbowExpiresAt = Date.now() + 4000; // 🎯 exakt 4 Sekunden
                 screenFlash("#ff00ff");
+                scorePop();
 
                 // ❌ KEIN growSegments++
                 superFood = null;
@@ -1198,6 +1200,29 @@
             ctx.fillText('LEVEL UP!', centerX, centerY);
 
             levelUpFlash--;
+        }
+
+        function scorePop() {
+            const pop = document.createElement("div");
+            pop.innerText = "+10";
+            pop.style.position = "fixed";
+            pop.style.left = "50%";
+            pop.style.top = "40%";
+            pop.style.transform = "translate(-50%, -50%)";
+            pop.style.color = "#ff00ff";
+            pop.style.fontSize = "40px";
+            pop.style.textShadow = "0 0 20px #ff00ff";
+            pop.style.pointerEvents = "none";
+
+            document.body.appendChild(pop);
+
+            setTimeout(() => {
+                pop.style.transition = "all 0.5s ease";
+                pop.style.top = "30%";
+                pop.style.opacity = "0";
+            }, 50);
+
+            setTimeout(() => pop.remove(), 600);
         }
 
 
