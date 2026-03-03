@@ -278,6 +278,24 @@
             }
         }
 
+        @keyframes flicker {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.85;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .neon-title {
+            animation: flicker 2s infinite;
+        }
+
         @keyframes neonPulse {
             0% {
                 box-shadow: 0 0 5px #ff00ff;
@@ -336,26 +354,6 @@
                 transform: translate(0);
             }
         }
-
-        @keyframes flicker {
-            0% {
-                opacity: 1;
-            }
-
-            50% {
-                opacity: 0.85;
-            }
-
-            100% {
-                opacity: 1;
-            }
-        }
-
-        .neon-title {
-            animation: flicker 2s infinite;
-        }
-
-
     </style>
 
 
@@ -794,7 +792,7 @@
                     showNameInput();
                 }
             }
-            
+
         }
 
         function shakeScreen() {
