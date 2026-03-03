@@ -342,9 +342,7 @@
 
         <!-- 👆 Swipe Area -->
         <div id="swipe-area">
-            <p>Swipe to Move<br>
-            <h3>Tab to restart</h3>
-            </p>
+            <h2>Swipe to move</h2>
 
         </div>
     </div>
@@ -501,7 +499,7 @@
                 ctx.fillText(`Score: ${score}`, canvas.width / 2, canvas.height / 2);
 
                 ctx.shadowBlur = 0;
-                ctx.font = '16px Arial';
+                ctx.font = '18px Arial';
                 ctx.fillStyle = 'white';
                 ctx.fillText(
                     'Tap or Space to restart',
@@ -523,7 +521,7 @@
             ctx.save();
 
             ctx.font = '22px Courier New';
-            ctx.fillStyle = '#00ffff';   // 💖 NEON PINK
+            ctx.fillStyle = '#00ffff';   // Farbe für Anzeige im Canvas
             ctx.textAlign = 'left';
             ctx.textBaseline = 'top';
 
