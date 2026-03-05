@@ -468,8 +468,7 @@
         let superFood = null;
         let globalHighscores = [];
         let gameOverAlpha = 0;
-        let wiggleTime = 0;
-
+       
         window.addEventListener('load', () => {
             loadGlobalHighscores();
         });
@@ -1003,7 +1002,7 @@
 
         function add(x, y, index) {
 
-            let wiggle = Math.sin(wiggleTime + index) * 1.5;
+            let wiggle = Math.sin(Date.now() / 80 + index) * 1.5;
             if (index === 0) wiggle = 0;
 
             let drawX = x * cellWidth;
@@ -1097,8 +1096,7 @@
                 snake[0].y++;
             }
 
-            wiggleTime += 0.15;
-
+            
             // Futer einsammeln und Punkte hoch setzen
             if (snake[0].x == food.x &&
                 snake[0].y == food.y) {
