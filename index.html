@@ -468,7 +468,7 @@
         let superFood = null;
         let globalHighscores = [];
         let gameOverAlpha = 0;
-       
+
         window.addEventListener('load', () => {
             loadGlobalHighscores();
         });
@@ -1004,6 +1004,7 @@
 
             let wiggle = Math.sin(Date.now() / 80 + index) * 1.5;
             if (index === 0) wiggle = 0;
+            wiggle *= (1 + index * 0.05);
 
             let drawX = x * cellWidth;
             let drawY = y * cellHeight;
@@ -1021,11 +1022,16 @@
                 ctx.fillStyle = "#ffffff";
             }
 
+            let taper = 1 - (index / snake.length) * 0.35;
+
+            let w = (cellWidth - 1) * taper;
+            let h = (cellHeight - 1) * taper;
+
             ctx.fillRect(
-                drawX,
-                drawY,
-                cellWidth - 1,
-                cellHeight - 1
+                drawX + (cellWidth - w) / 2,
+                drawY + (cellHeight - h) / 2,
+                w,
+                h
             );
         }
 
@@ -1096,7 +1102,7 @@
                 snake[0].y++;
             }
 
-            
+
             // Futer einsammeln und Punkte hoch setzen
             if (snake[0].x == food.x &&
                 snake[0].y == food.y) {
