@@ -1015,7 +1015,7 @@
 
         function add(x, y, index) {
 
-            let wave = Math.sin(Date.now() / 80 + index * 0.6) * 1.5;
+            let wave = Math.sin(Date.now() / (80 - speedLevel * 3) + index * 0.6) * 1.5;
 
             if (index === 0) wave = 0;
 
@@ -1033,7 +1033,7 @@
             if (rainbowMode) {
                 ctx.fillStyle = getRainbowColor(index);
             } else {
-                ctx.fillStyle = "#ffffff";
+                ctx.fillStyle = "#ccff00";
             }
 
             let taper = 1 - (index / snake.length) * 0.35;
