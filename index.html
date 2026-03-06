@@ -1019,7 +1019,7 @@
 
             if (index === 0) wave = 0;
 
-            wave *= (2 + index * 0.08);
+            wave *= (1 + index * 0.04);
 
             let drawX = x * cellWidth;
             let drawY = y * cellHeight;
@@ -1034,6 +1034,9 @@
                 ctx.fillStyle = getRainbowColor(index);
             } else {
                 ctx.fillStyle = "#ccff00";
+                ctx.shadowColor = "#ffff00";
+                ctx.shadowBlur = 8;
+                ctx.fillStyle = "#ffff00";
             }
 
             let taper = 1 - (index / snake.length) * 0.35;
@@ -1047,6 +1050,7 @@
                 w,
                 h
             );
+            ctx.shadowBlur = 0;
         }
 
 
