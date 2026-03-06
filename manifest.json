@@ -1,6 +1,6 @@
 {
     "name": "Neon Snake",
-    "short_name": "Snake",
+    "short_name": "Neon Snake",
     "start_url": "./",
     "display": "standalone",
     "background_color": "#000000",
