@@ -468,6 +468,8 @@
         let superFood = null;
         let globalHighscores = [];
         let gameOverAlpha = 0;
+        let rareSuperFood = null;
+        let rareSuperFoodExpiresAt = 0;
 
         window.addEventListener('load', () => {
             loadGlobalHighscores();
@@ -557,6 +559,10 @@
 
             if (superFood) {
                 drawSuperFood(superFood.x, superFood.y);
+            }
+
+            if (rareSuperFood) {
+                drawRareSuperFood(rareSuperFood.x, rareSuperFood.y);
             }
 
 
@@ -661,6 +667,39 @@
 
             ctx.shadowBlur = 0;
         }
+
+
+        function drawRareSuperFood(x, y) {
+
+            const px = x * cellWidth;
+            const py = y * cellHeight;
+
+            const blink = Math.sin(Date.now() / 120) > 0;
+
+            if (!blink) return;
+
+            const cx = px + cellWidth / 2;
+            const cy = py + cellHeight / 2;
+            const s = cellWidth / 2;
+
+            ctx.save();
+
+            ctx.shadowColor = "#00ccff";
+            ctx.shadowBlur = 25;
+            ctx.fillStyle = "#00ccff";
+
+            ctx.beginPath();
+            ctx.moveTo(cx, cy - s);
+            ctx.lineTo(cx + s, cy);
+            ctx.lineTo(cx, cy + s);
+            ctx.lineTo(cx - s, cy);
+            ctx.closePath();
+            ctx.fill();
+
+            ctx.restore();
+        }
+
+
 
         function drawEyes(x, y) {
             const cx = x * cellWidth;
@@ -1012,6 +1051,27 @@
             }
         }
 
+        function placeRareSuperFood() {
+
+            let valid = false;
+
+            while (!valid) {
+
+                let x = Math.floor(Math.random() * cols);
+                let y = Math.floor(Math.random() * rows);
+
+                valid =
+                    !snake.some(p => p.x === x && p.y === y) &&
+                    (!food || food.x !== x || food.y !== y) &&
+                    (!superFood || superFood.x !== x || superFood.y !== y);
+
+                if (valid) {
+                    rareSuperFood = { x, y };
+                    rareSuperFoodExpiresAt = Date.now() + 5000;
+                }
+            }
+        }
+
 
         function add(x, y, index) {
 
@@ -1137,6 +1197,10 @@
                     placeSuperFood();
                 }
 
+                if (!rareSuperFood && Math.random() < 0.15) {
+                    placeRareSuperFood();
+                }
+
                 // 📳 MINI-BUZZ beim Essen
                 if (navigator.vibrate && vibrationUnlocked) {
                     navigator.vibrate(20);
@@ -1165,7 +1229,31 @@
                 if (navigator.vibrate && vibrationUnlocked) {
                     navigator.vibrate([30, 20, 30]);
                 }
+
             }
+
+            if (
+                rareSuperFood &&
+                snake[0].x === rareSuperFood.x &&
+                snake[0].y === rareSuperFood.y
+            ) {
+
+                score += 50;
+
+                rareSuperFood = null;
+
+                screenFlash("#00ccff");
+
+                if (navigator.vibrate && vibrationUnlocked) {
+                    navigator.vibrate([60, 40, 60]);
+                }
+            }
+
+            if (rareSuperFood && Date.now() > rareSuperFoodExpiresAt) {
+                rareSuperFood = null;
+            }
+
+
 
 
 
