@@ -1033,13 +1033,13 @@
             if (rainbowMode) {
                 ctx.fillStyle = getRainbowColor(index);
             } else {
-                ctx.fillStyle = "#ccff00";
-                ctx.shadowColor = "#ffff00";
-                ctx.shadowBlur = 8;
-                ctx.fillStyle = "#ffff00";
+                ctx.fillStyle = "#ccff00"; // hier wird die Farbe der Schlange bestimmt
+                ctx.shadowColor = "#ccff00"; // Farbe vom Schatten
+                ctx.shadowBlur = 8;  // stärke, umfang vom Schatten
+                ctx.fillStyle = "#ccff00";  // Farbe vom Schatten
             }
 
-            let taper = 1 - (index / snake.length) * 0.35;
+            let taper = 1 - (index / snake.length) * 0.35;  // der Schwanz wird nach hinten dünner
 
             let w = (cellWidth - 1) * taper;
             let h = (cellHeight - 1) * taper;
@@ -1050,8 +1050,8 @@
                 w,
                 h
             );
-            ctx.shadowBlur = 0;
-        }
+            ctx.shadowBlur = 0;  // der glow effekt muss zurück gesetzt werden,
+        }                        // sonst glüht alles nach dem code!!! Soll ja nur Snake glühen ;-)
 
 
         function drawHead(x, y) {
@@ -1061,7 +1061,7 @@
 
             // 🟢 Kopf mit Glow
             ctx.shadowColor = '#00ff66';
-            ctx.shadowBlur = 14;
+            ctx.shadowBlur = 15;
             ctx.fillStyle = '#00ff66';
             ctx.fillRect(
                 px - 2,
