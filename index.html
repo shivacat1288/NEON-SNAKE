@@ -456,6 +456,8 @@
         gameOverSound.volume = 0.5;
         let superFoodSound = new Audio('superfood.mp3');
         superFoodSound.volume = 0.3;
+        let rareFoodSound = new Audio("rarefood.mp3");
+        rareFoodSound.volume = 0.6;
         let touchStartX = 0;
         let touchStartY = 0;
         let touchEndX = 0;
@@ -484,7 +486,7 @@
         let silentAudio = new Audio();
         silentAudio.src = "data:audio/mp3;base64,//uQxAAAAAAAAAAAAAAAAAAAAAA==";
         silentAudio.loop = true;
-        [eatsound, bgMusic, levelUpSound, gameOverSound, superFoodSound].forEach(a => {
+        [eatsound, bgMusic, levelUpSound, gameOverSound, rareFoodSound, superFoodSound].forEach(a => {
             a.preload = 'auto';
             a.playsInline = true;     // 🔑 iOS FIX
             a.muted = false;
@@ -697,6 +699,45 @@
             ctx.fill();
 
             ctx.restore();
+        }
+
+
+        function rareExplosion(x, y) {
+
+            const px = x * cellWidth + cellWidth / 2;
+            const py = y * cellHeight + cellHeight / 2;
+
+            for (let i = 0; i < 20; i++) {
+
+                const particle = document.createElement("div");
+
+                particle.style.position = "fixed";
+                particle.style.left = px + "px";
+                particle.style.top = py + "px";
+                particle.style.width = "6px";
+                particle.style.height = "6px";
+                particle.style.background = "#00ccff";
+                particle.style.boxShadow = "0 0 10px #00ccff";
+                particle.style.pointerEvents = "none";
+
+                document.body.appendChild(particle);
+
+                const angle = Math.random() * Math.PI * 2;
+                const dist = 60 + Math.random() * 40;
+
+                const dx = Math.cos(angle) * dist;
+                const dy = Math.sin(angle) * dist;
+
+                particle.animate([
+                    { transform: "translate(0,0)", opacity: 1 },
+                    { transform: `translate(${dx}px, ${dy}px)`, opacity: 0 }
+                ], {
+                    duration: 600,
+                    easing: "ease-out"
+                });
+
+                setTimeout(() => particle.remove(), 600);
+            }
         }
 
 
@@ -1075,7 +1116,7 @@
 
         function add(x, y, index) {
 
-            let wave = Math.sin(Date.now() / (80 - speedLevel * 3) + index * 0.6) * 1.5;
+            let wave = Math.sin(Date.now() / 80 + index * 0.6) * 1.5;
 
             if (index === 0) wave = 0;
 
@@ -1239,6 +1280,11 @@
             ) {
 
                 score += 50;
+
+                rareExplosion(rareSuperFood.x, rareSuperFood.y);
+
+                rareFoodSound.currentTime = 0;
+                rareFoodSound.play();
 
                 rareSuperFood = null;
 
