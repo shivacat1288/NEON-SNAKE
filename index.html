@@ -472,6 +472,7 @@
         let gameOverAlpha = 0;
         let rareSuperFood = null;
         let rareSuperFoodExpiresAt = 0;
+        let snakeTrail = [];
 
         window.addEventListener('load', () => {
             loadGlobalHighscores();
@@ -546,6 +547,7 @@
 
 
             ctx.fillStyle = 'white'; // welche farbe hat die schlange
+            drawSnakeTrail();
 
             snake.forEach((part, index) => {
                 if (index === 0) {
@@ -1351,10 +1353,45 @@
                 tongueTimer = 4;
             }
 
+            snakeTrail.push({
+                x: snake[0].x,
+                y: snake[0].y,
+                life: 20
+            });
+
+            if (snakeTrail.length > 120) {
+                snakeTrail.shift();
+            }
+
 
             testGameOver();
 
         }
+
+
+        function drawSnakeTrail() {
+
+            snakeTrail.forEach((p, i) => {
+
+                const alpha = p.life / 20;
+
+                ctx.fillStyle = `rgba(255,255,0,${alpha})`;
+                ctx.shadowColor = "#ffff00";
+                ctx.shadowBlur = 10;
+
+                ctx.fillRect(
+                    p.x * cellWidth,
+                    p.y * cellHeight,
+                    cellWidth - 1,
+                    cellHeight - 1
+                );
+
+                p.life--;
+            });
+
+            snakeTrail = snakeTrail.filter(p => p.life > 0);
+        }
+
 
         function drawLevelUpEffect() {
             if (levelUpFlash <= 0) return;
