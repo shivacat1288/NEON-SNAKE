@@ -1288,10 +1288,10 @@
                 rareFoodSound.currentTime = 0;
                 rareFoodSound.play();
 
-                rareSuperFood = null;
-
                 screenFlash("#00ccff");
                 scorePop50(rareSuperFood.x, rareSuperFood.y);
+
+                rareSuperFood = null;
 
                 if (navigator.vibrate && vibrationUnlocked) {
                     navigator.vibrate([60, 40, 60]);
