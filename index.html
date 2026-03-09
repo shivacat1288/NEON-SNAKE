@@ -472,7 +472,7 @@
         let gameOverAlpha = 0;
         let rareSuperFood = null;
         let rareSuperFoodExpiresAt = 0;
-        let tronTrail = [];
+
 
 
         window.addEventListener('load', () => {
@@ -547,8 +547,6 @@
 
 
 
-            drawTronTrail();
-
             snake.forEach((part, index) => {
                 if (index === 0) {
                     drawHead(part.x, part.y);
@@ -621,32 +619,6 @@
             ctx.fillText(`Level: ${speedLevel + 1}`, 8, 22);
 
             ctx.shadowBlur = 0;          // Wichtig zurücksetzen!
-
-            ctx.restore();
-        }
-
-
-        function drawTronTrail() {
-
-            if (tronTrail.length < 2) return;
-
-            ctx.save();
-
-            ctx.strokeStyle = rainbowMode ? getRainbowColor(0) : "#ffff00";
-            ctx.lineWidth = 6;
-            ctx.lineCap = "round";
-
-            ctx.shadowColor = ctx.strokeStyle;
-            ctx.shadowBlur = 15;
-
-            ctx.beginPath();
-            ctx.moveTo(tronTrail[0].x, tronTrail[0].y);
-
-            for (let i = 1; i < tronTrail.length; i++) {
-                ctx.lineTo(tronTrail[i].x, tronTrail[i].y);
-            }
-
-            ctx.stroke();
 
             ctx.restore();
         }
@@ -1319,6 +1291,7 @@
                 rareSuperFood = null;
 
                 screenFlash("#00ccff");
+                scorePop50();
 
                 if (navigator.vibrate && vibrationUnlocked) {
                     navigator.vibrate([60, 40, 60]);
@@ -1380,17 +1353,6 @@
             if (Math.random() < 0.10) {
                 tongueTimer = 4;
             }
-
-            tronTrail.push({
-                x: snake[0].x * cellWidth + cellWidth / 2,
-                y: snake[0].y * cellHeight + cellHeight / 2
-            });
-
-            if (tronTrail.length > 15) {
-                tronTrail.shift();
-            }
-
-
 
 
             testGameOver();
@@ -1454,6 +1416,29 @@
             }, 50);
 
             setTimeout(() => pop.remove(), 600);
+        }
+
+        function scorePop50() {
+            const pop = document.createElement("div");
+            pop.innerText = "+50";
+            pop.style.position = "fixed";
+            pop.style.left = "50%";
+            pop.style.top = "40%";
+            pop.style.transform = "translate(-50%, -50%)";
+            pop.style.color = "#00ccff";
+            pop.style.fontSize = "60px";
+            pop.style.textShadow = "0 0 20px #00ccff";
+            pop.style.pointerEvents = "none";
+
+            document.body.appendChild(pop);
+
+            setTimeout(() => {
+                pop.style.transition = "all 0.5s ease";
+                pop.style.top = "30%";
+                pop.style.opacity = "0";
+            }, 50);
+
+            setTimeout(() => pop.remove(), 800);
         }
 
 
