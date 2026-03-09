@@ -1291,7 +1291,7 @@
                 rareSuperFood = null;
 
                 screenFlash("#00ccff");
-                scorePop50();
+                scorePop50(rareSuperFood.x, rareSuperFood.y);
 
                 if (navigator.vibrate && vibrationUnlocked) {
                     navigator.vibrate([60, 40, 60]);
@@ -1418,13 +1418,18 @@
             setTimeout(() => pop.remove(), 600);
         }
 
-        function scorePop50() {
+        function scorePop50(x, y) {
+
             const pop = document.createElement("div");
             pop.innerText = "+50";
+
             pop.style.position = "fixed";
-            pop.style.left = "50%";
-            pop.style.top = "40%";
+
+            pop.style.left = (canvas.offsetLeft + x * cellWidth + cellWidth / 2) + "px";
+            pop.style.top = (canvas.offsetTop + y * cellHeight) + "px";
+
             pop.style.transform = "translate(-50%, -50%)";
+
             pop.style.color = "#00ccff";
             pop.style.fontSize = "60px";
             pop.style.textShadow = "0 0 20px #00ccff";
@@ -1433,12 +1438,12 @@
             document.body.appendChild(pop);
 
             setTimeout(() => {
-                pop.style.transition = "all 0.5s ease";
-                pop.style.top = "30%";
+                pop.style.transition = "all 0.8s ease";
+                pop.style.top = (canvas.offsetTop + y * cellHeight - 60) + "px";
                 pop.style.opacity = "0";
             }, 50);
 
-            setTimeout(() => pop.remove(), 800);
+            setTimeout(() => pop.remove(), 1200);
         }
 
 
