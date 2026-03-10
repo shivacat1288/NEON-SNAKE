@@ -1139,7 +1139,7 @@
                 ctx.fillStyle = "#ccff00"; // hier wird die Farbe der Schlange bestimmt
                 ctx.shadowColor = "#ccff00"; // Farbe vom Schatten
                 ctx.shadowBlur = 8;  // stärke, umfang vom Schatten
-                ctx.fillStyle = "#ccff00";  // Farbe vom Schatten
+
             }
 
             let taper = 1 - (index / snake.length) * 0.35;  // der Schwanz wird nach hinten dünner
@@ -1287,9 +1287,12 @@
 
                 rareFoodSound.currentTime = 0;
                 rareFoodSound.play();
-
                 screenFlash("#00ccff");
-                scorePop50(rareSuperFood.x, rareSuperFood.y);
+                const x = rareSuperFood.x;
+                const y = rareSuperFood.y;
+
+                scorePop50(x, y);
+                rareExplosion(x, y);
 
                 rareSuperFood = null;
 
@@ -1425,8 +1428,10 @@
 
             pop.style.position = "fixed";
 
-            pop.style.left = (canvas.offsetLeft + x * cellWidth + cellWidth / 2) + "px";
-            pop.style.top = (canvas.offsetTop + y * cellHeight) + "px";
+            const rect = canvas.getBoundingClientRect();
+
+            pop.style.left = (rect.left + x * cellWidth + cellWidth / 2) + "px";
+            pop.style.top = (rect.top + y * cellHeight) + "px";
 
             pop.style.transform = "translate(-50%, -50%)";
 
@@ -1533,6 +1538,8 @@
             gameOver = false;
 
             placefood();
+            rareSuperFood = null;
+            rareSuperFoodExpiresAt = 0;
 
             gameInterval = setInterval(gameloop, baseSpeed);
 
