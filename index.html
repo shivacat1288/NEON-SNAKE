@@ -380,6 +380,7 @@
         const db = getFirestore(app);
 
         // 🔓 Global verfügbar machen
+        window.app = app;
         window.db = db;
         window.fs = { collection, addDoc, query, orderBy, limit, getDocs, deleteDoc };
     </script>
