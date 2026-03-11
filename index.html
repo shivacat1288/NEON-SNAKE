@@ -551,7 +551,7 @@
 
         async function enablePush() {
 
-            const messaging = getMessaging(app);
+            const messaging = getMessaging(window.app);
 
             try {
 
@@ -561,17 +561,19 @@
 
                 console.log("Push Token:", token);
 
-                // Token speichern
-                await addDoc(collection(db, "tokens"), {
-                    token: token,
-                    created: Date.now()
-                });
+                // Token in Firestore speichern
+                await window.fs.addDoc(
+                    window.fs.collection(window.db, "tokens"),
+                    {
+                        token: token,
+                        created: Date.now()
+                    }
+                );
 
             } catch (err) {
-                console.log("Push Permission verweigert", err);
+                console.log("Push Permission verweigert:", err);
             }
         }
-
 
 
 
