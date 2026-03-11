@@ -29,7 +29,7 @@ messaging.onBackgroundMessage(function (payload) {
 
     self.registration.showNotification(payload.notification.title, {
         body: payload.notification.body,
-        icon: "/icon-192.png"
+        icon: "./icon-192.png"
     });
 
 });
@@ -39,7 +39,7 @@ self.addEventListener("notificationclick", function (event) {
     event.notification.close();
 
     event.waitUntil(
-        clients.openWindow("/")
+        clients.openWindow("/NEON-SNAKE/")
     );
 
 });
