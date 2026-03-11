@@ -394,6 +394,10 @@
 
         const messaging = getMessaging(window.app);
 
+        // GLOBAL MACHEN
+        window.messaging = messaging;
+        window.getToken = getToken;
+
     </script>
 
 </head>
@@ -553,17 +557,14 @@
 
         async function enablePush() {
 
-            const messaging = getMessaging(window.app);
-
             try {
 
-                const token = await getToken(messaging, {
+                const token = await window.getToken(window.messaging, {
                     vapidKey: "BGmMjTZy_UVX95FNDrHFHw-89uan1oyiqUTm8dUVOYIaaysn7GP7tYixLSEnik_2xI3ShHm1a41nq50keYTZbQQ"
                 });
 
                 console.log("Push Token:", token);
 
-                // Token in Firestore speichern
                 await window.fs.addDoc(
                     window.fs.collection(window.db, "tokens"),
                     {
