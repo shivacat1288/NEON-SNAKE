@@ -558,7 +558,7 @@
         async function enablePush() {
 
             try {
-
+                const registration = await navigator.serviceWorker.register("/NEON-SNAKE/sw.js");
                 const token = await window.getToken(window.messaging, {
                     vapidKey: "BGmMjTZy_UVX95FNDrHFHw-89uan1oyiqUTm8dUVOYIaaysn7GP7tYixLSEnik_2xI3ShHm1a41nq50keYTZbQQ"
                 });
