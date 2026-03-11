@@ -28,10 +28,17 @@ const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage(function (payload) {
 
-    self.registration.showNotification(payload.notification.title, {
-        body: payload.notification.body,
-        icon: "./icon-192.png"
-    });
+    console.log("Push received", payload);
+
+    // Nur anzeigen wenn keine automatische Firebase Notification existiert
+    if (!payload.notification && payload.data) {
+
+        self.registration.showNotification(payload.data.title, {
+            body: payload.data.body,
+            icon: "/NEON-SNAKE/icon-192.png"
+        });
+
+    }
 
 });
 
