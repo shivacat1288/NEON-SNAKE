@@ -7,3 +7,39 @@ self.addEventListener('activate', event => {
     console.log('SW: aktiviert');
     event.waitUntil(clients.claim()); // sofort Kontrolle übernehmen
 });
+
+importScripts(
+    "https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"
+);
+
+importScripts(
+    "https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging-compat.js"
+);
+
+firebase.initializeApp({
+    apiKey: "AIzaSyDJF5PLnlWghvf1Tev7Ibiy6lDAqZhWc4Q",
+    authDomain: "rainbow-snake-5d7ac.firebaseapp.com",
+    projectId: "rainbow-snake-5d7ac",
+    messagingSenderId: "728021400110"
+});
+
+const messaging = firebase.messaging();
+
+messaging.onBackgroundMessage(function (payload) {
+
+    self.registration.showNotification(payload.notification.title, {
+        body: payload.notification.body,
+        icon: "/icon-192.png"
+    });
+
+});
+
+self.addEventListener("notificationclick", function (event) {
+
+    event.notification.close();
+
+    event.waitUntil(
+        clients.openWindow("/")
+    );
+
+});

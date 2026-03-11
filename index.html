@@ -384,6 +384,15 @@
         window.fs = { collection, addDoc, query, orderBy, limit, getDocs, deleteDoc };
     </script>
 
+    <script type="module">
+
+        import { getMessaging, getToken, onMessage }
+            from "https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging.js";
+
+        const messaging = getMessaging(app);
+
+    </script>
+
 </head>
 
 <body>
@@ -536,6 +545,31 @@
         canvas.addEventListener('click', () => {
             if (gameOver) restartGame();
         });
+
+
+
+        async function enablePush() {
+
+            const messaging = getMessaging(app);
+
+            try {
+
+                const token = await getToken(messaging, {
+                    vapidKey: "BGmMjTZy_UVX95FNDrHFHw-89uan1oyiqUTm8dUVOYIaaysn7GP7tYixLSEnik_2xI3ShHm1a41nq50keYTZbQQ"
+                });
+
+                console.log("Push Token:", token);
+
+                // Token speichern
+                await addDoc(collection(db, "tokens"), {
+                    token: token,
+                    created: Date.now()
+                });
+
+            } catch (err) {
+                console.log("Push Permission verweigert", err);
+            }
+        }
 
 
 
@@ -1570,6 +1604,9 @@
         const gameScreen = document.getElementById('game-screen');
 
         startBtn.addEventListener('click', () => {
+
+            enablePush();   // erlaubt push notification
+
             startScreen.classList.remove('active');
             gameScreen.classList.add('active');
 
