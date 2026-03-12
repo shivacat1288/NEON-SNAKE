@@ -30,14 +30,16 @@ messaging.onBackgroundMessage(function (payload) {
 
     console.log("Push received", payload);
 
-    const title = payload.notification?.title || payload.data?.title;
-    const body = payload.notification?.body || payload.data?.body;
+    // Nur selbst anzeigen wenn KEINE Firebase Notification vorhanden ist
+    if (!payload.notification && payload.data) {
 
-    self.registration.showNotification(title, {
-        body: body,
-        icon: "/NEON-SNAKE/icon-192.png",
-        badge: "/NEON-SNAKE/icon-192.png"
-    });
+        self.registration.showNotification(payload.data.title, {
+            body: payload.data.body,
+            icon: "/NEON-SNAKE/icon-192.png",
+            badge: "/NEON-SNAKE/icon-192.png"
+        });
+
+    }
 
 });
 
