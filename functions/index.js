@@ -1,13 +1,13 @@
-const functions = require("firebase-functions");
+const { onDocumentCreated } = require("firebase-functions/v2/firestore");
 const admin = require("firebase-admin");
 
 admin.initializeApp();
 
-exports.highscoreAlert = functions.firestore
-    .document("highscores/{scoreId}")
-    .onCreate(async (snap, context) => {
+exports.highscoreAlert = onDocumentCreated(
+    "highscores/{scoreId}",
+    async (event) => {
 
-        const data = snap.data();
+        const data = event.data.data();
         const player = data.name;
         const score = data.score;
 
@@ -23,13 +23,13 @@ exports.highscoreAlert = functions.firestore
 
         if (tokens.length === 0) {
             console.log("No tokens found");
-            return null;
+            return;
         }
 
         const message = {
             data: {
                 title: "NEON SNAKE",
-                body: player + " reached " + score + " points!"
+                body: `${player} reached ${score} points!`
             },
             tokens: tokens
         };
@@ -37,6 +37,5 @@ exports.highscoreAlert = functions.firestore
         const response = await admin.messaging().sendEachForMulticast(message);
 
         console.log("Push sent:", response.successCount);
-
-        return null;
-    });
+    }
+);
