@@ -488,6 +488,7 @@
         let gameOverAlpha = 0;
         let rareSuperFood = null;
         let rareSuperFoodExpiresAt = 0;
+        let currentPushToken = null;
 
 
 
@@ -563,6 +564,8 @@
                     vapidKey: "BGmMjTZy_UVX95FNDrHFHw-89uan1oyiqUTm8dUVOYIaaysn7GP7tYixLSEnik_2xI3ShHm1a41nq50keYTZbQQ",
                     serviceWorkerRegistration: registration
                 });
+
+                currentPushToken = token;
 
                 console.log("Push Token:", token);
 
@@ -1056,6 +1059,7 @@
             const docRef = await addDoc(collection(db, "highscores"), {
                 name,
                 score,
+                token: currentPushToken,
                 created: Date.now()
             });
 
